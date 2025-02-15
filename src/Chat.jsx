@@ -3,7 +3,7 @@ import { useAuth } from "./AuthProvider";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5001");
+const socket = io("https://c4chat-server.vercel.app/");
 
 const Chat = () => {
     const { user, signInWithGoogle, logout } = useAuth();
@@ -44,30 +44,30 @@ const Chat = () => {
     }, [user]);
 
     const fetchFriends = async () => {
-        const res = await axios.get(`http://localhost:5001/friends/${user.email}`);
+        const res = await axios.get(`https://c4chat-server.vercel.app//friends/${user.email}`);
         setFriends(res.data);
     };
 
     const fetchFriendRequests = async () => {
-        const res = await axios.get(`http://localhost:5001/friendRequests/${user.email}`);
+        const res = await axios.get(`https://c4chat-server.vercel.app//friendRequests/${user.email}`);
         setFriendRequests(res.data);
     };
 
     const sendFriendRequest = async () => {
-        await axios.post("http://localhost:5001/sendFriendRequest", { senderEmail: user.email, receiverEmail: friendEmail });
+        await axios.post("https://c4chat-server.vercel.app//sendFriendRequest", { senderEmail: user.email, receiverEmail: friendEmail });
         alert("Friend request sent!");
         setFriendEmail("");
     };
 
     const acceptFriendRequest = async (friendEmail) => {
-        await axios.post("http://localhost:5001/acceptFriendRequest", { userEmail: user.email, friendEmail });
+        await axios.post("https://c4chat-server.vercel.app//acceptFriendRequest", { userEmail: user.email, friendEmail });
         fetchFriends();
         fetchFriendRequests();
     };
 
     const fetchMessages = async (friend) => {
         setCurrentFriend(friend);
-        const res = await axios.get(`http://localhost:5001/messages?sender=${user.email}&receiver=${friend.email}`);
+        const res = await axios.get(`https://c4chat-server.vercel.app//messages?sender=${user.email}&receiver=${friend.email}`);
         setMessages(res.data);
     };
 
